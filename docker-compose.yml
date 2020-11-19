@@ -1,0 +1,18 @@
+version: '3'
+services:
+  db:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: railshanami
+      MYSQL_DATABASE: root
+    ports:
+      - "6306:3306"
+  web:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && bundle exec rails s -p 3000 -b '0.0.0.0'"
+    volumes:
+      - .:/files
+    ports:
+      - "3322:3000"
+    depends_on:
+      - db
